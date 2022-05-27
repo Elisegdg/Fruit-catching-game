@@ -65,3 +65,34 @@ generateFruits();
 
 
 document.addEventListener('keydown', control);
+
+
+// FONCTIONS LOIS DE PROBABILITÉ
+
+function loiBernoulli(x) {
+  if (x == 1) {
+    return true;
+  } else if (x == 0) {
+    return false;
+  } else {
+    return false;
+  }
+}
+
+function loiUniforme(a, b, x) {
+  var densite = 1 / (b - a);
+  var prob = densite * (x + 1 - x);
+
+  return prob;
+}
+
+function getRandomInt(max) {
+  return 1 + Math.floor(Math.random() * max);
+}
+
+
+var tailleFruit = getRandomInt(4) * loiUniforme(1, 5, 1);
+
+console.log(getRandomInt(4));
+console.log(loiUniforme(1, 5, 1));
+console.log(tailleFruit);
