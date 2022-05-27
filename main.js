@@ -86,6 +86,13 @@ function loiUniforme(a, b, x) {
   return prob;
 }
 
+function loiGeometrique(p, a) {
+  var prob = (p * (1 - p)) ^ (a - 1);
+  return prob;
+}
+
+
+
 function getRandomInt(max) {
   return 1 + Math.floor(Math.random() * max);
 }
