@@ -48,3 +48,10 @@ body {
     background-color: black;
     position: absolute;
 }
+
+.golden {
+    width: 50px !important;
+    height: 50px !important;
+    background-color: gold;
+    position: absolute;
+}
