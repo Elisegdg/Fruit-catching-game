@@ -1,74 +1,3 @@
-/******************** GAME ***********************/
-
-var game = document.querySelector('.game-window');
-var basket = document.querySelector('.basket');
-var fruits = document.querySelector('.fruits');
-
-var basketLeft =
-    parseInt(window.getComputedStyle(basket).getPropertyValue('left'));
-var basketBottom =
-    parseInt(window.getComputedStyle(basket).getPropertyValue('bottom'));
-
-
-var score = 0;
-
-function moveBasketLeft() {
-  if (basketLeft > 0) {
-    basketLeft -= 30;
-    basket.style.left = basketLeft + 'px';
-  }
-}
-
-function moveBasketRight() {
-  if (basketLeft < 620) {
-    basketLeft += 30;
-    basket.style.left = basketLeft + 'px';
-  }
-}
-
-function control(e) {
-  if (e.key == 'ArrowLeft') {
-    moveBasketLeft();
-  }
-  if (e.key == 'ArrowRight') {
-    moveBasketRight();
-  }
-}
-
-function generateFruits() {
-  var fruitBottom = 470;
-  var fruitLeft = Math.floor(Math.random() * 620);
-  var fruit = document.createElement('div');
-  fruit.setAttribute('class', 'fruit');
-  fruits.appendChild(fruit);
-
-  function fallDownFruit() {
-    if (fruitBottom < basketBottom + 50 && fruitBottom > basketBottom &&
-        fruitLeft > basketLeft - 30 && fruitLeft < basketLeft + 80) {
-      fruits.removeChild(fruit);
-      clearInterval(fallInterval);
-      score++;
-    }
-    if (fruitBottom < basketBottom) {
-      alert('Game Over ! Your score is : ' + score);
-      clearInterval(fallInterval);
-      clearTimeout(fruitTimeout);
-      location.reload();
-    }
-    fruitBottom -= 5;
-    fruit.style.bottom = fruitBottom + 'px';
-    fruit.style.left = fruitLeft + 'px';
-  }
-  var fallInterval = setInterval(fallDownFruit, 20);
-  var fruitTimeout = setTimeout(generateFruits, 2000);
-}
-
-generateFruits();
-
-
-document.addEventListener('keydown', control);
-
-
 /******************** LOIS DE PROBA ***********************/
 
 
@@ -133,3 +62,108 @@ function getRandomBoxMuller(expectation, variance) {
 // console.log(getRandomExponentielle(4));
 // console.log(getRandomGeometrique(0.1));
 console.log(getRandomBoxMuller(5, 0.9));
+
+
+
+/******************** GAME ***********************/
+
+var game = document.querySelector('.game-window');
+var basket = document.querySelector('.basket');
+var fruits = document.querySelector('.fruits');
+
+var basketLeft =
+    parseInt(window.getComputedStyle(basket).getPropertyValue('left'));
+var basketBottom =
+    parseInt(window.getComputedStyle(basket).getPropertyValue('bottom'));
+
+
+var score = 0;
+
+function moveBasketLeft() {
+  if (basketLeft > 0) {
+    basketLeft -= 30;
+    basket.style.left = basketLeft + 'px';
+  }
+}
+
+function moveBasketRight() {
+  if (basketLeft < 620) {
+    basketLeft += 30;
+    basket.style.left = basketLeft + 'px';
+  }
+}
+
+function control(e) {
+  if (e.key == 'ArrowLeft') {
+    moveBasketLeft();
+  }
+  if (e.key == 'ArrowRight') {
+    moveBasketRight();
+  }
+}
+
+let range = 0.2;
+
+function generateFruits() {
+  var fruitBottom = 470;
+  var fruitLeft = Math.floor(Math.random() * 620);
+  var fruit = document.createElement('div');
+
+  var rand = getRandomUniforme(20, 60);
+  console.log(rand);
+  fruit.style.width = rand + 'px';
+  fruit.style.height = rand + 'px';
+
+  if (getRandomBernoulli(range) == 1) {
+    fruit.setAttribute('class', 'bomb');
+    fruits.appendChild(fruit);
+
+    function fallDownFruit() {
+      if (fruitBottom < basketBottom + 50 && fruitBottom > basketBottom &&
+          fruitLeft > basketLeft - 30 && fruitLeft < basketLeft + 80) {
+        alert('BOMB ! Game Over ! Your score is : ' + score);
+        clearInterval(fallIntervalFruit);
+        clearTimeout(fruitTimeout);
+        location.reload();
+      }
+      if (fruitBottom < basketBottom) {
+        fruits.removeChild(fruit);
+        clearInterval(fallIntervalFruit);
+      }
+      fruitBottom -= 7;
+      fruit.style.bottom = fruitBottom + 'px';
+      fruit.style.left = fruitLeft + 'px';
+    }
+
+
+  } else {
+    fruit.setAttribute('class', 'fruit');
+    fruits.appendChild(fruit);
+
+    function fallDownFruit() {
+      if (fruitBottom < basketBottom + 50 && fruitBottom > basketBottom &&
+          fruitLeft > basketLeft - 30 && fruitLeft < basketLeft + 80) {
+        fruits.removeChild(fruit);
+        clearInterval(fallIntervalFruit);
+        score++;
+        range += 0.01;
+      }
+      if (fruitBottom < basketBottom) {
+        alert('Fruit has fall ! Game Over ! Your score is : ' + score);
+        clearInterval(fallIntervalFruit);
+        clearTimeout(fruitTimeout);
+        location.reload();
+      }
+      fruitBottom -= 5;
+      fruit.style.bottom = fruitBottom + 'px';
+      fruit.style.left = fruitLeft + 'px';
+    }
+  }
+
+  var fallIntervalFruit = setInterval(fallDownFruit, 40);
+  var fruitTimeout = setTimeout(generateFruits, 2000);
+}
+
+generateFruits();
+
+document.addEventListener('keydown', control);

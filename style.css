@@ -41,3 +41,10 @@ body {
     background-color: green;
     position: absolute;
 }
+
+.bomb {
+    width: 30px !important;
+    height: 30px !important;
+    background-color: black;
+    position: absolute;
+}
