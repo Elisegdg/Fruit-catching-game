@@ -111,11 +111,25 @@ function getRandomGeometrique(x) {
   return a;
 }
 
+// Variable aléatoire suivant la loi box muller
+function getRandomBoxMuller(expectation, variance) {
+  let u1 = getRandom();
+  let u2 = getRandom();
 
-var tailleFruit = getRandomUniforme(1, 10);
+  let r = Math.sqrt(-2 * Math.log(u1));
+  let T = 2 * u2 * Math.PI;
 
-console.log(tailleFruit);
-console.log(getRandom());
-console.log(getRandomBernoulli(0.5));
-console.log(getRandomExponentielle(4));
-console.log(getRandomGeometrique(0.1));
+  let X = r * Math.cos(T);
+
+  return expectation + variance * X;
+}
+
+
+// var tailleFruit = getRandomUniforme(1, 10);
+
+// console.log(tailleFruit);
+// console.log(getRandom());
+// console.log(getRandomBernoulli(0.5));
+// console.log(getRandomExponentielle(4));
+// console.log(getRandomGeometrique(0.1));
+console.log(getRandomBoxMuller(5, 0.9));
