@@ -71,43 +71,51 @@ document.addEventListener('keydown', control);
 
 /******************** LOIS DE PROBA ***********************/
 
+
+// Return random number between 0 & 1
+function getRandom() {
+  return Math.random();
+}
+
 // FONCTIONS LOIS DE PROBABILITÉ
 
-function loiBernoulli(x) {
-  if (x == 1) {
-    return true;
-  } else if (x == 0) {
-    return false;
+// Variable aléatoire suivant la loi Uniforme
+function getRandomUniforme(min, max) {
+  let random = Math.floor(getRandom() * (max - min + 1) + min);
+  return random;
+}
+
+// Variable aléatoire suivant la loi de Bernoulli
+function getRandomBernoulli(x) {
+  let random = getRandom();
+  if (random < x) {
+    return 1;
   } else {
-    return false;
+    return 0;
   }
 }
 
-
-function getRandomInt(max) {
-  return 1 + Math.floor(Math.random() * max);
+// Variable aléatoire suivant la loi Exponentielle
+function getRandomExponentielle(x) {
+  return -Math.log(getRandom()) / x;
 }
 
-function loiUniforme(a, b, x) {
-  var densite = 1 / (b - a);
-  var prob = densite * (x + 1 - x);
-
-  return prob;
+// Variable aléatoire suivant la loi Géométrique
+function getRandomGeometrique(x) {
+  let a = 0;
+  random = getRandomBernoulli(x);
+  while (random != 1) {
+    random = getRandomBernoulli(x);
+    a++;
+  }
+  return a;
 }
 
-function loiGeometrique(p, a) {
-  var prob = (p * (1 - p)) ^ (a - 1);
-  return prob;
-}
 
-/*function loiExponentielle(L, a, b) {
-  var f = ;
-  var prob = ;
-}*/
+var tailleFruit = getRandomUniforme(1, 10);
 
-
-
-var tailleFruit = loiUniforme(1, 5, 1);
-
-console.log(getRandomInt(4));
 console.log(tailleFruit);
+console.log(getRandom());
+console.log(getRandomBernoulli(0.5));
+console.log(getRandomExponentielle(4));
+console.log(getRandomGeometrique(0.1));
