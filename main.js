@@ -1,3 +1,5 @@
+/******************** GAME ***********************/
+
 var game = document.querySelector('.game-window');
 var basket = document.querySelector('.basket');
 var fruits = document.querySelector('.fruits');
@@ -67,6 +69,8 @@ generateFruits();
 document.addEventListener('keydown', control);
 
 
+/******************** LOIS DE PROBA ***********************/
+
 // FONCTIONS LOIS DE PROBABILITÉ
 
 function loiBernoulli(x) {
@@ -77,6 +81,11 @@ function loiBernoulli(x) {
   } else {
     return false;
   }
+}
+
+
+function getRandomInt(max) {
+  return 1 + Math.floor(Math.random() * max);
 }
 
 function loiUniforme(a, b, x) {
@@ -91,15 +100,14 @@ function loiGeometrique(p, a) {
   return prob;
 }
 
+/*function loiExponentielle(L, a, b) {
+  var f = ;
+  var prob = ;
+}*/
 
 
-function getRandomInt(max) {
-  return 1 + Math.floor(Math.random() * max);
-}
 
-
-var tailleFruit = getRandomInt(4) * loiUniforme(1, 5, 1);
+var tailleFruit = loiUniforme(1, 5, 1);
 
 console.log(getRandomInt(4));
-console.log(loiUniforme(1, 5, 1));
 console.log(tailleFruit);
