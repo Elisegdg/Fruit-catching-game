@@ -59,9 +59,9 @@ function getRandomBoxMuller(expectation, variance) {
 // console.log(tailleFruit);
 // console.log(getRandom());
 // console.log(getRandomBernoulli(0.5));
-console.log(getRandomExponentielle(10) * 100);
-// console.log(getRandomGeometrique(0.1));
-// console.log(getRandomBoxMuller(5, 0.9));
+// console.log(getRandomExponentielle(9) * 100);
+//  console.log(getRandomGeometrique(0.1));
+//  console.log(getRandomBoxMuller(5, 0.9));
 
 
 
@@ -76,9 +76,7 @@ var basketLeft =
 var basketBottom =
     parseInt(window.getComputedStyle(basket).getPropertyValue('bottom'));
 
-
 var score = 0;
-
 
 function moveBasketLeft() {
   if (basketLeft > 0) {
@@ -104,14 +102,29 @@ function control(e) {
 }
 
 let range = 0.2;
+let large = 50;
+
+let minSpeed = 6;
+let maxSpeed = 8;
 
 function generateFruits() {
   var fruitBottom = 470;
-  var fruitLeft = Math.floor(Math.random() * 620);
+  var fruitLeft = getRandomBoxMuller(310, large);
+  if (fruitLeft < 0) {
+    fruitLeft = 4;
+  } else if (fruitLeft > 620) {
+    fruitLeft = 610;
+  }
+  console.log(large);
+
   var fruit = document.createElement('div');
 
+  var speed = getRandomUniforme(minSpeed, maxSpeed);
+
+  // console.log(fruitLeft);
+
   var rand = getRandomUniforme(20, 60);
-  console.log(rand);
+  // console.log(rand);
   fruit.style.width = rand + 'px';
   fruit.style.height = rand + 'px';
 
@@ -148,6 +161,9 @@ function generateFruits() {
         clearInterval(fallIntervalFruit);
         score++;
         range += 0.01;
+        large += 10;
+        minSpeed -= 0.2;
+        maxSpeed -= 0.2;
       }
       if (fruitBottom < basketBottom) {
         alert('Fruit has fall ! Game Over ! Your score is : ' + score);
@@ -155,14 +171,16 @@ function generateFruits() {
         clearTimeout(fruitTimeout);
         location.reload();
       }
-      fruitBottom -= 5;
+
+
+      fruitBottom -= speed;
       fruit.style.bottom = fruitBottom + 'px';
       fruit.style.left = fruitLeft + 'px';
     }
   }
 
   var a = getRandomGeometrique(range);
-  if (a == 5) {
+  if (a == 7) {
     fruit.setAttribute('class', 'golden');
     fruits.appendChild(fruit);
 
@@ -172,15 +190,14 @@ function generateFruits() {
         fruits.removeChild(fruit);
         clearInterval(fallIntervalFruit);
         score += 10;
-        range += 0.01;
+        range += 0.02;
+        large += 10;
       }
       if (fruitBottom < basketBottom) {
-        alert('Fruit has fall ! Game Over ! Your score is : ' + score);
+        fruits.removeChild(fruit);
         clearInterval(fallIntervalFruit);
-        clearTimeout(fruitTimeout);
-        location.reload();
       }
-      fruitBottom -= 5;
+      fruitBottom -= 7;
       fruit.style.bottom = fruitBottom + 'px';
       fruit.style.left = fruitLeft + 'px';
     }
@@ -192,6 +209,11 @@ function generateFruits() {
   var fruitTimeout = setTimeout(generateFruits, 2000);
 }
 
+
 generateFruits();
+
+/*var scoreZone = document.getElementById('score');
+var texte = document.createTextNode('Score : ' + score);
+scoreZone.appendChild(texte);*/
 
 document.addEventListener('keydown', control);
